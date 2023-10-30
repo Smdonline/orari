@@ -1,6 +1,5 @@
 from django.contrib import admin
-from . import models
-
+from . import models, forms
 
 @admin.register(models.SMDManager)
 class AdminSMDManager(admin.ModelAdmin):
@@ -10,4 +9,5 @@ class AdminSMDManager(admin.ModelAdmin):
 class AdminTurno(admin.ModelAdmin):
     list_display = ('dip','giorno', 'inizio', 'fine', 'durata')
     ordering = ('-giorno',)
+    form = forms.TurnoForm
 
