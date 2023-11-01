@@ -34,6 +34,8 @@ class Turno(models.Model):
 
     def durata_minuti(self):
         return int((self.durata().total_seconds() % 3600) / 60)
+    def orario(self):
+        return (self.inizio.strftime("%H:%M"), self.fine.strftime("%H:%M"))
     def __str__(self):
         init = self.inizio.strftime("%H:%M")
         fine = self.fine.strftime("%H:%M")
