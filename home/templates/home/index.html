@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body>
+
+<a href="{% url 'home:list-by-date' anteriore %}"><button><<</button></a>
+<a href="{% url 'home:list-by-date' prossimo %}"><button>>></button></a>
+
 {% for giorno, turno in turni.items %}
     {{ giorno }}
     {% for foo in turno %}

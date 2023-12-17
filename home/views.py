@@ -18,8 +18,15 @@ class ListTurni(ListView):
     date_field = 'giorno'
 
     def get_queryset(self):
-        today = datetime.date.today()
-        lunedi = today - datetime.timedelta(days=today.weekday() % 7)
+        data = datetime.date.today()
+        if 'data' in self.kwargs:
+            try:
+                data = datetime.datetime.strptime(self.kwargs['data'], "%Y-%m-%d")
+            except (ValueError, TypeError):
+                pass
+
+
+        lunedi = data - datetime.timedelta(days=data.weekday() % 7)
 
         domenica = lunedi + datetime.timedelta(days=6)
         print(lunedi, "  ", domenica)
@@ -29,4 +36,19 @@ class ListTurni(ListView):
             orari[zi] = [i for i in querry if i.giorno.weekday() == numar]
         return orari
 
+    def get_context_data(self, **kwargs):
+        context = super(ListTurni, self).get_context_data(**kwargs)
+        data = datetime.date.today()
+        if 'data' in self.kwargs:
+            try:
+                data = datetime.datetime.strptime(self.kwargs['data'], "%Y-%m-%d")
+            except (ValueError, TypeError):
+                pass
+
+        lunedi = data - datetime.timedelta(days=data.weekday() % 7)
+        prossimo = lunedi + datetime.timedelta(days=7)
+        anteriore = lunedi - datetime.timedelta(days=7)
+        context['anteriore'] = anteriore.date()
+        context['prossimo'] = prossimo.date()
+        return context
 
